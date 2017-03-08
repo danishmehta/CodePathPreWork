@@ -45,7 +45,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         if(!(amountInput.text?.isEmpty)!){
             total = amount * tip;
-            
+            totalAmount.text = "\(total)"
+            var fa = total/Double(people);
+            fa = Double(round(fa*100)/100)
+            finalAmount.text = "\(fa)"
+        } else {
+            totalAmount.text = ""
+            finalAmount.text = ""
         }
         
     }
@@ -93,6 +99,42 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             return tipOptions[row]
         }
         return peopleOptions[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if(pickerView == self.noOfPeople){
+            people = row+1
+        } else if (pickerView == self.tipPicker){
+            switch row {
+            case 0:
+                tip = 1.15
+            case 1:
+                tip = 1.18
+            case 2:
+                tip = 1.20
+            default:
+                tip = 1.15
+            }
+        }
+        
+        if(!(amountInput.text?.isEmpty)!){
+            total = amount * tip;
+            totalAmount.text = "\(total)"
+            var fa = total/Double(people);
+            fa = Double(round(fa*100)/100)
+            finalAmount.text = "\(fa)"
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        var titleData:String="";
+        if(pickerView==tipPicker){
+            titleData = tipOptions[row]
+        } else if(pickerView==noOfPeople){
+            titleData = peopleOptions[row]
+        }
+        let myTitle = NSAttributedString(string: titleData, attributes: [NSForegroundColorAttributeName:UIColor.white])
+        return myTitle
     }
 
 
